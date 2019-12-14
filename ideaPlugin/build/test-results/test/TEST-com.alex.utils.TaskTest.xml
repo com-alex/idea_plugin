@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.alex.utils.TaskTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-12-14T08:17:28" hostname="192.168.0.106" time="0.286">
+  <properties/>
+  <testcase name="displayAllTaskTest" classname="com.alex.utils.TaskTest" time="0.286"/>
+  <system-out><![CDATA[Task{taskId=2, uid=1, taskName='t2', projectName='p2', taskPriority=2, taskType='design', taskDetail='12312312', startTime='2019-12-12 14:50:51', endTime='null', dueTime='2019-01-02 10:14:00'}
+Task{taskId=4, uid=1, taskName='t2', projectName='p3', taskPriority=2, taskType='design', taskDetail='asdfsadfas', startTime='2019-12-11 14:51:03', endTime='null', dueTime='2019-01-02 10:16:11'}
+Task{taskId=12312, uid=1, taskName='t4', projectName='p4', taskPriority=3, taskType='consultant', taskDetail='wewoosdfs', startTime='2019-12-04 14:51:07', endTime='null', dueTime='2019-01-17 01:14:13'}
+Task{taskId=123412, uid=1, taskName='t6', projectName='p6', taskPriority=5, taskType='design', taskDetail='asasdfasdf', startTime='2019-12-05 14:51:10', endTime='null', dueTime='2019-01-17 10:14:12'}
+Task{taskId=11234123, uid=1, taskName='t5', projectName='p5', taskPriority=3, taskType='develop', taskDetail='asd打发士大夫卡刷点卡ff', startTime='2019-12-09 14:51:14', endTime='null', dueTime='2019-01-17 20:14:00'}
+]]></system-out>
+  <system-err><![CDATA[Sat Dec 14 16:17:28 CST 2019 WARN: Establishing SSL connection without server's identity verification is not recommended. According to MySQL 5.5.45+, 5.6.26+ and 5.7.6+ requirements SSL connection must be established by default if explicit option isn't set. For compliance with existing applications not using SSL the verifyServerCertificate property is set to 'false'. You need either to explicitly disable SSL by setting useSSL=false, or set useSSL=true and provide truststore for server certificate verification.
+]]></system-err>
+</testsuite>
