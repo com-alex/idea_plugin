@@ -5,4 +5,8 @@ package com.alex.GUI;
  * @date 2019-12-15
  */
 public class pluginInterface {
+
+    public static void main(String[] args) {
+
+    }
 }
