@@ -90,4 +90,11 @@ public interface TaskService {
      * @return
      */
     List<Task> sortTaskWithDueTime(List<Task> taskList);
+
+    /**
+     * 保存或者更新Task
+     * @param object
+     * @return
+     */
+    Boolean saveOrUpdateTask(Object object);
 }

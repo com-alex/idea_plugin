@@ -73,4 +73,9 @@ public class TaskServiceImpl implements TaskService {
         SortUtils.sort(taskList,sortNameArr,isAscArr);
         return  taskList;
     }
+
+    @Override
+    public Boolean saveOrUpdateTask(Object object) {
+        return taskDao.saveOrUpdateTask(object);
+    }
 }

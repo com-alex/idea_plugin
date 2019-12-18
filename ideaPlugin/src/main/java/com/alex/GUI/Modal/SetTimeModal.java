@@ -1,12 +1,19 @@
 package com.alex.GUI.Modal;
 
+import com.alex.GUI.SelectTaskDialog;
 import com.alex.GUI.component.DateChooserJButton;
+import com.alex.GUI.component.TaskTableModel;
 import com.alex.VO.TaskVO;
+import com.alex.entity.Task;
+import com.alex.service.impl.TaskServiceImpl;
 import com.alex.utils.GUIUtils;
+import com.alex.utils.ReflectionUtils;
+import com.alex.utils.SqlBuilder;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 /**
  * @author wsh
@@ -18,8 +25,9 @@ public class SetTimeModal extends JFrame {
     private static final String SET_START_TIME_MODAL = "start";
     private static final String SET_END_TIME_MODAL = "end";
 
-    private JDialog jDialog;
+    private SelectTaskDialog jDialog;
     private TaskVO taskVO;
+    private TaskServiceImpl taskService;
     private String flag;
     private JPanel timePanel;
     private JLabel timeLabel;
@@ -28,6 +36,7 @@ public class SetTimeModal extends JFrame {
     private JButton cancelButton;
 
     public SetTimeModal(){
+        taskService = new TaskServiceImpl();
         timePanel = new JPanel();
         timePanel.setBounds(0, 0, 300, 150);
         timePanel.setLayout(null);
@@ -44,9 +53,8 @@ public class SetTimeModal extends JFrame {
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO 时间设置
-                //1. 获取设置的时间
-                //2. 更新数据库
+
+                onOk();
             }
         });
 
@@ -65,7 +73,7 @@ public class SetTimeModal extends JFrame {
         this.setBounds(GUIUtils.getCenterX(300), GUIUtils.getCenterY(150), 300, 150);
         this.setVisible(true);
     }
-    public SetTimeModal(String flag, JDialog dialog, TaskVO taskVO){
+    public SetTimeModal(String flag, SelectTaskDialog dialog, TaskVO taskVO){
         this();
         this.taskVO = taskVO;
         this.jDialog = dialog;
@@ -76,6 +84,25 @@ public class SetTimeModal extends JFrame {
         else{
             timeLabel.setText("End Time:");
         }
+
+    }
+
+    private void onOk(){
+        //更新数据
+        String time = this.dateChooserJButton.getText();
+        if(this.flag.contains(SET_START_TIME_MODAL)){
+            this.taskVO.setStartTime(time);
+        } else if (this.flag.contains(SET_END_TIME_MODAL)) {
+            this.taskVO.setEndTime(time);
+        }
+        Task task = new Task();
+        task = (Task) ReflectionUtils.copyProperties(this.taskVO, task);
+        taskService.saveOrUpdateTask(task);
+        //刷新表格数据源
+        List<TaskVO> dataSource = taskService.queryAllShowTask(1);
+        this.setVisible(false);
+        this.jDialog.getTaskTable().setModel(new TaskTableModel(dataSource));
+        this.jDialog.setVisible(true);
 
     }
 

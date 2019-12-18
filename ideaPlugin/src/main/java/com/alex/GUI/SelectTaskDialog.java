@@ -16,12 +16,12 @@ import java.util.List;
 /**
  * 任务选择主界面
  * 主要用于设置开始，结束时间
+ * @author wsh
  */
 public class SelectTaskDialog extends JDialog {
     //常量，防止出现魔法值
     private static final String SET_START_TIME_MODAL_FLAG = "start";
     private static final String SET_END_TIME_MODAL_FLAG = "end";
-
 
     private JPanel contentPane;
     private JPanel panel1;
@@ -29,15 +29,23 @@ public class SelectTaskDialog extends JDialog {
     private JButton confirmButton;
     private JButton cancelButton;
     private JTable taskTable;
-
-    private TaskServiceImpl taskService = new TaskServiceImpl();
-
-
+    private TaskServiceImpl taskService;
+    private Integer uid;
 
     public SelectTaskDialog() {
 
+        initInterface();
+        setContentPane(contentPane);
+        setModal(true);
+    }
+
+    /**
+     * 主界面初始化
+     */
+    public void initInterface(){
+        taskService = new TaskServiceImpl();
+
         panel1.setLocation(0,0);
-//        panel1.setBackground(Color.red);
         panel1.setLayout(null);
 
 
@@ -49,22 +57,8 @@ public class SelectTaskDialog extends JDialog {
         panel1.add(tablePanel);
 
         tablePanel.setLayout(null);
-        List<TaskVO> dataSource = taskService.queryAllShowTask(1);
 
-
-        TaskTableModel taskTableModel = new TaskTableModel(dataSource);
-        taskTable = new JTable(taskTableModel);
-
-        taskTable.getSelectedColumn();
-        taskTable.getSelectedRow();
-
-        taskTable.setBounds(0, 0, 1180, 340);
-        JScrollPane scrollPane = new JScrollPane(taskTable);
-
-        scrollPane.setBounds(0,0, 1180, 340);
-
-        tablePanel.add(scrollPane);
-
+        this.getDataSource();
 
         confirmButton = new JButton("Start");
         confirmButton.setBounds(0, 0, 50, 30);
@@ -86,10 +80,24 @@ public class SelectTaskDialog extends JDialog {
         });
         panel1.add(cancelButton);
 
+    }
 
-        setContentPane(contentPane);
-        setModal(true);
+    public void getDataSource(){
+        List<TaskVO> dataSource = taskService.queryAllShowTask(1);
+        this.uid = 1;
 
+        TaskTableModel taskTableModel = new TaskTableModel(dataSource);
+        taskTable = new JTable(taskTableModel);
+
+        taskTable.getSelectedColumn();
+        taskTable.getSelectedRow();
+
+        taskTable.setBounds(0, 0, 1180, 340);
+        JScrollPane scrollPane = new JScrollPane(taskTable);
+
+        scrollPane.setBounds(0,0, 1180, 340);
+
+        tablePanel.add(scrollPane);
 
     }
 
@@ -101,9 +109,13 @@ public class SelectTaskDialog extends JDialog {
         int row = taskTable.getSelectedRow();
         List<Object> params = new ArrayList<>();
         for (int i = 0; i < taskTable.getColumnCount(); i++){
+            if(i == 1){
+                params.add(this.uid);
+            }
             params.add(taskTable.getValueAt(row, i));
         }
         TaskVO selectedTaskVO = (TaskVO) ReflectionUtils.createObject(TaskVO.class, params);
+        selectedTaskVO.setUid(this.uid);
 
         this.setVisible(false);
         if(flag != null && flag.indexOf(SET_START_TIME_MODAL_FLAG) > -1){
@@ -123,7 +135,7 @@ public class SelectTaskDialog extends JDialog {
 
                     }
                 });
-                JOptionPane.showOptionDialog(null, "您已经选择了开始时间", "Tips", JOptionPane.WARNING_MESSAGE, 0, null, jButtons, jButtons[0]);
+                JOptionPane.showOptionDialog(null, "You have chosen start time!", "Tips", JOptionPane.WARNING_MESSAGE, 0, null, jButtons, jButtons[0]);
                 this.setVisible(true);
             }
 
@@ -143,12 +155,16 @@ public class SelectTaskDialog extends JDialog {
 
                     }
                 });
-                JOptionPane.showOptionDialog(null, "您已经选择了结束时间", "Tips", JOptionPane.WARNING_MESSAGE, 0, null, jButtons, jButtons[0]);
+                JOptionPane.showOptionDialog(null, "You have chosen end time!", "Tips", JOptionPane.WARNING_MESSAGE, 0, null, jButtons, jButtons[0]);
                 this.setVisible(true);
             }
 
         }
 
+    }
+
+    public JTable getTaskTable(){
+        return this.taskTable;
     }
 
 }

@@ -2,6 +2,7 @@ package com.alex.utils;
 
 import com.alex.VO.TaskVO;
 import com.alex.entity.Task;
+import com.alex.service.TaskService;
 import com.alex.service.impl.TaskServiceImpl;
 import org.junit.Test;
 
@@ -84,5 +85,43 @@ public class TaskTest {
         Integer uid =1;
         List<Task> taskList = t.sortTaskWithDueTime(t.displayAllTask(uid));
         SortUtils.printfTaskInfoList(taskList);
+    }
+
+    @Test
+    public void saveOrUpdateTask(){
+        //从数据库中获取task
+        TaskService taskService = new TaskServiceImpl();
+        Task task = taskService.queryTaskByProjectName(1, "p2").get(0);
+        //将task转换成显示的taskVO
+        TaskVO taskVO = new TaskVO();
+        taskVO = (TaskVO) ReflectionUtils.copyProperties(task, taskVO);
+        //模拟更新操作
+        Task task2 = new Task();
+        task2 = (Task) ReflectionUtils.copyProperties(taskVO, task2);
+        task2.setEndTime("2019-12-13 14:50:59");
+        System.out.println(task2);
+
+        try {
+            SqlBuilder.saveOrUpdate(task2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            SqlBuilder.closeAll();
+        }
+    }
+
+    @Test
+    public void save(){
+        Task task2 = new Task();
+        task2.setTaskId(123);
+        task2.setUid(1);
+
+        try {
+            SqlBuilder.saveOrUpdate(task2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            SqlBuilder.closeAll();
+        }
     }
 }

@@ -1,8 +1,12 @@
 package com.alex.utils;
 
 
+import com.alex.VO.TaskVO;
 import com.alex.annotation.Table;
+import com.alex.entity.Task;
 import com.alex.entity.User;
+import com.alex.service.TaskService;
+import com.alex.service.impl.TaskServiceImpl;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -73,5 +77,48 @@ public class ReflectionTest {
         User user = new User();
         List<String> attributeAnnotations = ReflectionUtils.getAttributeAnnotations(user);
         System.out.println(attributeAnnotations);
+    }
+
+
+
+    @Test
+    public void testGetObjectParams(){
+        TaskService taskService = new TaskServiceImpl();
+        List<TaskVO> taskVOS = taskService.queryAllShowTask(1);
+        TaskVO taskVO = taskVOS.get(0);
+        System.out.println(taskVO);
+        List<Object> params = ReflectionUtils.getObjectParams(taskVO);
+        System.out.println(params);
+    }
+
+    @Test
+    public void testCopyProperties(){
+        TaskService taskService = new TaskServiceImpl();
+        Task task = taskService.queryTaskByProjectName(1, "p2").get(0);
+        TaskVO taskVO = new TaskVO();
+        taskVO = (TaskVO) ReflectionUtils.copyProperties(task, taskVO);
+        Task task2 = new Task();
+        task2 = (Task) ReflectionUtils.copyProperties(taskVO, task2);
+        System.out.println(task2);
+    }
+
+    @Test
+    public void testGetPrimaryKey(){
+        System.out.println(ReflectionUtils.getPrimaryKeyAttributeName(Task.class));
+    }
+
+    @Test
+    public void testCreateObject(){
+        List<Object> param = new ArrayList<>();
+        param.add(1);
+        param.add("t1");
+        param.add("p1");
+        param.add(1);
+        param.add("develop");
+        param.add("2019-12-12 14:50:59");
+        param.add("2019-12-12 14:50:59");
+        param.add("2019-12-12 14:50:59");
+        TaskVO selectedTaskVO = (TaskVO) ReflectionUtils.createObject(TaskVO.class, param);
+        System.out.println(selectedTaskVO);
     }
 }

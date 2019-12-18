@@ -72,6 +72,7 @@ public class SqlBuilder {
             }else{
                 sb.append(" ?, ");
             }
+            params.add(insertParams.get(i));
         }
         return this;
     }
@@ -247,7 +248,6 @@ public class SqlBuilder {
             }
         }
         int result = preparedStatement.executeUpdate();
-        System.out.println(result);
         return result != 0 ? true : false;
     }
 
@@ -262,19 +262,20 @@ public class SqlBuilder {
         //获取实体映射类的表名
         String tableName = "";
         Class clazz = object.getClass();
-        String clazzName = clazz.getName();
-        Class<?> user = Class.forName("com.User");
-        Table table = user.getAnnotation(Table.class);
+        Table table = (Table) clazz.getAnnotation(Table.class);
         if (table != null){
             tableName = table.tableName();
+        } else{
+            throw new RuntimeException("error");
         }
         //获取实体映射类的属性值
         List<Object> fields = ReflectionUtils.getObjectParams(object);
+        String primaryKey = ReflectionUtils.getPrimaryKeyAttributeName(clazz);
         SqlBuilder sqlBuilder = SqlBuilder.getInstance();
         sqlBuilder.select("*")
                 .from(tableName)
                 .where()
-                .addEqualTo("uid", fields.get(0));
+                .addEqualTo(primaryKey, fields.get(0));
         List<Object> objectList = (List<Object>) sqlBuilder.createQuery(sqlBuilder.getSql(), sqlBuilder.getParams(), clazz);
 
         //获取实体映射累的属性上的注解
@@ -288,7 +289,7 @@ public class SqlBuilder {
                     for(int i = 1; i < annotations.size(); i++){
                         updateSqlBuilder.set(annotations.get(i), fields.get(i));
                     }
-            updateSqlBuilder.updateWhere("uid", fields.get(0));
+            updateSqlBuilder.updateWhere(primaryKey, fields.get(0));
             return createUpdate(updateSqlBuilder.getSql(), updateSqlBuilder.getParams());
         }
         else{

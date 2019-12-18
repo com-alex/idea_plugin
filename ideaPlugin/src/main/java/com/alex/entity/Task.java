@@ -1,6 +1,7 @@
 package com.alex.entity;
 
 import com.alex.annotation.Column;
+import com.alex.annotation.PrimaryKey;
 import com.alex.annotation.Table;
 
 import java.sql.Timestamp;
@@ -16,6 +17,7 @@ import java.sql.Timestamp;
 @Table (tableName = "task_info")
 public class Task {
 
+    @PrimaryKey
     @Column(column = "task_id")
     private Integer taskId;
     @Column(column = "uid")

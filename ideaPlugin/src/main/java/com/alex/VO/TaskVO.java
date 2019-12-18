@@ -1,6 +1,7 @@
 package com.alex.VO;
 
 import com.alex.annotation.Column;
+import com.alex.annotation.Ignored;
 
 /**
  * @author wsh
@@ -10,6 +11,9 @@ import com.alex.annotation.Column;
 public class TaskVO {
 
     private Integer taskId;
+
+    @Ignored
+    private Integer uid;
 
     private String taskName;
 
@@ -31,6 +35,14 @@ public class TaskVO {
 
     public void setTaskId(Integer taskId) {
         this.taskId = taskId;
+    }
+
+    public Integer getUid() {
+        return uid;
+    }
+
+    public void setUid(Integer uid) {
+        this.uid = uid;
     }
 
     public String getTaskName() {
@@ -93,6 +105,7 @@ public class TaskVO {
     public String toString() {
         return "TaskVO{" +
                 "taskId=" + taskId +
+                ", uid=" + uid +
                 ", taskName='" + taskName + '\'' +
                 ", projectName='" + projectName + '\'' +
                 ", taskPriority=" + taskPriority +

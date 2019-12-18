@@ -16,5 +16,6 @@ public interface TaskDao {
      List<Task> queryTaskByProjectName(Integer uid, String project);
      List<Task> queryTaskByTaskType(Integer uid, String TaskType);
      List<Task> queryTaskByTaskPriority(Integer uid, Integer TaskPriority);
+     Boolean saveOrUpdateTask(Object object);
 
 }
