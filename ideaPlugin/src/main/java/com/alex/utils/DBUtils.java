@@ -12,18 +12,14 @@ import java.sql.*;
  */
 
 public class DBUtils {
-    private static String driver = "";
-    private static String url = "";
-    private static String username = "";
-    private static String password = "";
+    private static String driver = "com.mysql.jdbc.Driver";
+    private static String url = "jdbc:mysql://localhost:3306/plugin_test?useUnicode=true&characterEncoding=UTF-8";
+    private static String username = "root";
+    private static String password = "toor";
     private static Connection conn;
 
     public static Connection getConnection(){
         try {
-            driver = Configuration.getValue("driver");
-            url = Configuration.getValue("url");
-            username = Configuration.getValue("username");
-            password = Configuration.getValue("password");
             Class.forName(driver);
             conn = DriverManager.getConnection(url, username, password);
         } catch (ClassNotFoundException e) {

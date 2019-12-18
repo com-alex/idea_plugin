@@ -1,6 +1,7 @@
 package com.alex.DAO.impl;
 
 import com.alex.DAO.TaskDao;
+import com.alex.VO.TaskVO;
 import com.alex.entity.Task;
 import com.alex.utils.SqlBuilder;
 
@@ -31,6 +32,25 @@ public class TaskDaoImpl implements TaskDao {
             SqlBuilder.closeAll();
         }
         return tasks;
+    }
+
+    @Override
+    public List<TaskVO> queryAllShowTask(Integer uid){
+        List<TaskVO> taskList = new ArrayList<>();
+        SqlBuilder sqlBuilder = SqlBuilder.getInstance();
+        sqlBuilder.select("task_id, task_name, project_name, task_priority, task_type, start_time, end_time, due_time")
+                .from("task_info")
+                .where()
+                .addEqualTo("uid", uid);
+        try {
+            taskList = (List<TaskVO>) sqlBuilder.createQuery(sqlBuilder.getSql(), sqlBuilder.getParams(), TaskVO.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            SqlBuilder.closeAll();
+        }
+        return taskList;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.alex.DAO;
 
+import com.alex.VO.TaskVO;
 import com.alex.entity.Task;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 public interface TaskDao {
 
      List<Task> queryAllTask(Integer uid);
+     List<TaskVO> queryAllShowTask(Integer uid);
      List<Task> queryTaskByProjectName(Integer uid, String project);
      List<Task> queryTaskByTaskType(Integer uid, String TaskType);
      List<Task> queryTaskByTaskPriority(Integer uid, Integer TaskPriority);

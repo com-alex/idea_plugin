@@ -1,5 +1,6 @@
 package com.alex.service;
 
+import com.alex.VO.TaskVO;
 import com.alex.entity.Task;
 
 import java.util.List;
@@ -30,6 +31,13 @@ public interface TaskService {
      * @return
      */
     List<Task> displayAllTask(Integer uid);
+
+    /**
+     * 通过用户id查找所有显示的任务
+     * @param uid
+     * @return
+     */
+    List<TaskVO> queryAllShowTask(Integer uid);
 
     /**
      * 通过用户id与主题查找任务

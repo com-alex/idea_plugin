@@ -39,6 +39,8 @@ public class SqlBuilderTest {
         }
     }
 
+
+
     @Test
     public void testSaveOrUpdate(){
         User user = new User(19, "我asdad", "12312312eqweqeqw");

@@ -1,5 +1,6 @@
 package com.alex.utils;
 
+import com.alex.VO.TaskVO;
 import com.alex.entity.Task;
 import com.alex.service.impl.TaskServiceImpl;
 import org.junit.Test;
@@ -21,6 +22,15 @@ public class TaskTest {
             System.out.println(task);
         }
     }
+
+    @Test
+    public void testQueryAllShowTask(){
+        Integer uid = 1;
+        TaskServiceImpl t = new TaskServiceImpl();
+        List<TaskVO> taskVOS = t.queryAllShowTask(uid);
+        System.out.println(taskVOS);
+    }
+
     @Test
     public void filterTaskByProjectTest(){
         Integer uid =1;

@@ -1,6 +1,7 @@
 package com.alex.service.impl;
 
 import com.alex.DAO.impl.TaskDaoImpl;
+import com.alex.VO.TaskVO;
 import com.alex.entity.Task;
 import com.alex.service.TaskService;
 import com.alex.utils.SortUtils;
@@ -17,7 +18,12 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<Task> displayAllTask(Integer uid) {
-        return  taskDao.queryAllTask(uid);
+        return taskDao.queryAllTask(uid);
+    }
+
+    @Override
+    public List<TaskVO> queryAllShowTask(Integer uid) {
+        return taskDao.queryAllShowTask(uid);
     }
 
     @Override
